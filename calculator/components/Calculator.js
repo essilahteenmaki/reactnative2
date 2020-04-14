@@ -9,37 +9,37 @@ export default function Calculator({ navigation })  {
   const [nmr, setNmr] = useState("");
   const [nmr2, setNmr2] = useState("");
   const [result, setResult] = useState("");
-  const [text, setText] = useState("");
-  const [data, setData] = useState([
-    /*
-    {text: 'Testi', key: '1'}
-    */
-]);
+  //const [text, setText] = useState("");
+  const [data, setData] = useState([]);
 
  
   const add = () => {
-    setResult(parseInt(nmr) + parseInt(nmr2));
-    setText(nmr + "+" + nmr2 + "=");
+    let sum = parseInt(nmr) + parseInt(nmr2)
+    let text = nmr + "+" + nmr2 + "=" + sum;
+    setData( (prevData) => {
+      return [
+        {text: text, key: data.length},
+        ...prevData
+      ]
+    } );
+    setResult(sum);
     setNmr('');
     setNmr2('');
   }
 
   const minus = () => {
-    setResult(parseInt(nmr) - parseInt(nmr2));
-    setText(nmr + "-" + nmr2 + "=");
-    setNmr('');
-    setNmr2('');
-  }
-
-
-  useEffect(() => {
+    let sum = parseInt(nmr) - parseInt(nmr2)
+    let text = nmr + "-" + nmr2 + "=" + sum;    
+    setResult(sum);
     setData( (prevData) => {
       return [
-        {text: text + result, key: data.length},
+        {text: text, key: data.length},
         ...prevData
       ]
     } );
-  }, [result])
+    setNmr('');
+    setNmr2('');
+  }
 
 
 

@@ -7,7 +7,7 @@ export default function App() {
   const [total, setTotal] = useState(''); 
   const [selectedValue, setSelectedValue] = useState('');
   const [allRates, setAllRates] = useState([]);
-  //const [key, setKey] = useState('7940d2296fa27ce3334fd6b6bc6d558d') vaihdoin apia koska currencylayerin ilmaisessa saa ilmeisesti vain source=usd
+  //const [key, setKey] = useState('x') vaihdoin apia koska currencylayerin ilmaisessa saa ilmeisesti vain source=usd
 
   useEffect(()=>{
     getRates();
@@ -53,7 +53,7 @@ export default function App() {
         onValueChange={(itemValue) => { setSelectedValue(itemValue) }}>
 
           <Picker.Item key={'unselectable'} label='Valitse valuutta' value={0} />
-          
+
 	            {Object.keys(allRates).map((rate) => {
 	              return <Picker.Item label={rate} value={allRates[rate]} key={rate} />
 	              })

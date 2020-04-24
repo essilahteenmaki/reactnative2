@@ -5,11 +5,6 @@ export default function App() {
 
   const [ing, setIng] = useState('');
   const [recipes, setRecipes] = useState([]);
-  
-  
-    const [address, setAddress] = useState('');
-  const key = 'WYMZ8sNRZ6QjS7cbGzpNhvWlW87fXzTL';
-  const [longLat, setLongLat] = useState([]);
 
 
   const find = () => {
@@ -33,33 +28,6 @@ export default function App() {
       Alert.alert('Error' , error); 
     }); 
   }
-  
-  
-  
-    const test = () => {
-    let street = encodeURI(address);
-	
-    const url = 'https://www.mapquestapi.com/geocoding/v1/address?key='+key+'&street='+street+'+&country=finland&maxResults=1';
-	console.log(url);
-    fetch(url)
-    .then((response) => response.json())
-    .then((responseJson) => { 
-        console.log(responseJson);
-		console.log(responseJson.results[0].locations[0].latLng);
-       //setLongLat(responseJson.results.locations.latLng); 
-       //console.log(longLat);
-       
-
-    })
-    .catch((error) => { 
-      Alert.alert('Error' , error); 
-    }); 
-
-    
-  }
-  
-  
-  
   
   const listSeparator = () => {
     return (
@@ -97,18 +65,8 @@ export default function App() {
           onChangeText={(ing) => setIng(ing)
           } 
         />
-		
-		
-		        <TextInput 
-          value={address} 
-          style={styles.TextInput}
-          onChangeText={(address) => setAddress(address)} 
-        />
 
         <Button title="Find recipes" onPress={find} />
-		
-		
-		<Button title="testaaa" onPress={test} />
 
       </View>
     </View>

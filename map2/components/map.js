@@ -6,7 +6,7 @@ export default function Map({ route, navigation }) {
 
   const {address} = route.params;  
 
-  const key = 'WYMZ8sNRZ6QjS7cbGzpNhvWlW87fXzTL';
+  const key = 'x';
   const [lat, setLat] = useState('');
   const [lng, setLng] = useState('');
 

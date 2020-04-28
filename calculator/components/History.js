@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TextInput, Button, FlatList } from 'react-native';
 
 
-export default function Historyn({ route, navigation })  {
+export default function History({ route, navigation })  {
 
     const {data} = route.params;
 

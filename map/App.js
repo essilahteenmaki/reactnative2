@@ -6,8 +6,8 @@ import * as Location from 'expo-location';
 export default function App() {
 
   const [address, setAddress] = useState('');
-  const key = 'WYMZ8sNRZ6QjS7cbGzpNhvWlW87fXzTL';
-  const gkey = 'AIzaSyDWufCkxUL-Kx8JQ7D6wE1o2JxJ1BGJiU0';
+  const key = 'x';
+  const gkey = 'x';
   const [lat, setLat] = useState('');
   const [lng, setLng] = useState('');
   const [markers, setMarkers] = useState([]);

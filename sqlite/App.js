@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, FlatList } from 'react-native';
+import { StyleSheet, Text, View, FlatList, Keyboard } from 'react-native';
 import * as SQLite from 'expo-sqlite';
 
 import {Button, ListItem, Header, Input } from 'react-native-elements';
@@ -12,8 +12,12 @@ export default function App() {
     db.transaction(tx => {
       tx.executeSql('create table if not exists item (id integer primary key not null, item text, pcs text);');
     });
-    update();    
+    update(); 
+
+
   }, []);
+
+
 
   const update = () => {
     db.transaction(tx => {
@@ -35,6 +39,7 @@ export default function App() {
     }, null, update)
     setPcs('');
     setItem('');
+    Keyboard.dismiss();
   }
 
   const deleteItem = (id) => {
@@ -44,50 +49,46 @@ export default function App() {
   }
 
 
-  renderItem = ({ item }) => (
-    <ListItem
-      title={item.item}
-      subtitle={item.pcs}
-      bottomDivider
-      chevron
-    />
-  )
 
   return (
-    <View style={styles.container}>
-        <Header
-          backgroundColor = "pink"
-          placement="center"
-          centerComponent={{ text: 'Ostoslista', style: { color: 'white' } }}
-        />
+    <View>
 
-    
-        <Input placeholder='Tuote' onChangeText={(item) => setItem(item)} value={item} />
-        <Input placeholder='Määrä' onChangeText={(pcs) => setPcs(pcs)} value={pcs} />
-    
+      <Header
+        backgroundColor = "pink"
+        placement="center"
+        centerComponent={{ text: 'SHOPPING LIST', style: { color: 'white', fontSize: 20 } }}
+      />
 
-      <Button backgroundColor="pink" color="pink"  title="Outline button" onPress={save} />
+        <View style={styles.container}> 
 
 
-      <View style={styles.list}>
+            <Input placeholder='Tuote' onChangeText={(item) => setItem(item)} value={item} />
+            <Input placeholder='Määrä' onChangeText={(pcs) => setPcs(pcs)} value={pcs} />
 
+            <View style={styles.button}> 
+              <Button type="outline"  title="ADD" onPress={save} buttonStyle={{ backgroundColor: 'pink' }} titleStyle={{ color: 'white' }} />
+            </View>
 
-  {/*    
-        <FlatList 
-          keyExtractor={item => item.id.toString()}  
-          data={items} 
-          renderItem={({item}) => 
-          <View>
-            <Text> {item.item}, {item.pcs}</Text>
+          <View style={styles.list}>
 
-            <Text  onPress={() => deleteItem(item.id)}> Bought</Text>
+              <FlatList
+              data={items}
+              keyExtractor={item => item.id.toString()}
+              renderItem = {({item}) => (
+                  <ListItem
+                  title={item.item}
+                  subtitle={item.pcs}
+                  rightTitle='Bought'
+                  bottomDivider
+                  chevron={{color: 'black'}}
+                  onPress={() => deleteItem(item.id)}
+                  />
+              )}
+            />
+        
 
-          </View>} 
-          /> 
-    /*}
-
+        </View>
       </View>
- 
     </View>
   );
   
@@ -96,22 +97,9 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 90,
-    flexDirection: "column",
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    padding: 10
   },
-  form: {
-    paddingTop: 10
-  },
-  buttons: {
-    color: "#f194ff",
-    alignItems: 'center',
-    flexDirection: 'row'
-  },
-  list: {
-    padding: 50
-  },
-
+button: {
+  margin: 10
+}
 })

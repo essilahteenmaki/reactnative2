@@ -10,8 +10,6 @@ export default function App() {
   const gkey = 'AIzaSyDWufCkxUL-Kx8JQ7D6wE1o2JxJ1BGJiU0';
   const [lat, setLat] = useState('');
   const [lng, setLng] = useState('');
-  const [longLat, setLongLat] = useState([]);
-  const [txt, setTxt] = useState('');
   const [markers, setMarkers] = useState([]);
 
   useEffect(() => {
@@ -28,15 +26,14 @@ export default function App() {
     .then((response) => response.json())
     .then((responseJson) => { 
         console.log(responseJson);
-       // setLongLat(responseJson.results[0].locations[0].latLng.lat); 
        setLat(Number(responseJson.results[0].locations[0].latLng.lat)); 
        setLng(Number(responseJson.results[0].locations[0].latLng.lng)); 
-       
-
+ 
     })
     .catch((error) => { 
       Alert.alert('Error' , error); 
-    }); 
+    });
+  
   }
 
   const restaurants = () => {
@@ -78,8 +75,8 @@ export default function App() {
             region={{
               latitude: Number(lat),
               longitude: Number(lng),
-              latitudeDelta: 0.322,
-              longitudeDelta: 0.321
+              latitudeDelta: 0.122,
+              longitudeDelta: 0.121
               }}
             >
               <Marker                
@@ -92,6 +89,7 @@ export default function App() {
                   key={marker.id}
                   coordinate={{latitude: Number(marker.geometry.location.lat), longitude: Number(marker.geometry.location.lng)}}
                   title={marker.name}
+                  description={marker.vicinity}
                 />
             ))}
 
@@ -100,13 +98,13 @@ export default function App() {
 
       <KeyboardAvoidingView style={styles.keyboard} behavior='padding' enabled>
 
-            <Text>{txt}</Text>
         <TextInput 
           value={address} 
           style={styles.input}
           onChangeText={(address) => setAddress(address)} 
         />
         <Button title="Find from Finland" onPress={find} />
+      
         <Button title="Find restaurants nearby" onPress={restaurants} />
 
       </KeyboardAvoidingView>
@@ -136,6 +134,7 @@ const styles = StyleSheet.create({
       backgroundColor: 'white',
       width: '100%',
       alignItems: 'center',
+      padding: 20
     },
     input: {
       height: 40, 

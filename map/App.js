@@ -6,8 +6,8 @@ import * as Location from 'expo-location';
 export default function App() {
 
   const [address, setAddress] = useState('');
-  const key = 'x';
-  const gkey = 'x';
+  const key = 'WYMZ8sNRZ6QjS7cbGzpNhvWlW87fXzTL';
+  const gkey = 'AIzaSyDWufCkxUL-Kx8JQ7D6wE1o2JxJ1BGJiU0';
   const [lat, setLat] = useState('');
   const [lng, setLng] = useState('');
   const [markers, setMarkers] = useState([]);
@@ -28,12 +28,12 @@ export default function App() {
         console.log(responseJson);
        setLat(Number(responseJson.results[0].locations[0].latLng.lat)); 
        setLng(Number(responseJson.results[0].locations[0].latLng.lng)); 
- 
+       
+
     })
     .catch((error) => { 
       Alert.alert('Error' , error); 
-    });
-  
+    }); 
   }
 
   const restaurants = () => {
@@ -75,8 +75,8 @@ export default function App() {
             region={{
               latitude: Number(lat),
               longitude: Number(lng),
-              latitudeDelta: 0.122,
-              longitudeDelta: 0.121
+              latitudeDelta: 0.322,
+              longitudeDelta: 0.321
               }}
             >
               <Marker                
@@ -102,9 +102,9 @@ export default function App() {
           value={address} 
           style={styles.input}
           onChangeText={(address) => setAddress(address)} 
-        />
+          clearButtonMode="always" />
+          
         <Button title="Find from Finland" onPress={find} />
-      
         <Button title="Find restaurants nearby" onPress={restaurants} />
 
       </KeyboardAvoidingView>
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
       backgroundColor: 'white',
       width: '100%',
       alignItems: 'center',
-      padding: 20
+      paddingTop: 20
     },
     input: {
       height: 40, 

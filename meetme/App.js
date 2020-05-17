@@ -5,6 +5,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Home from './components/Home'
 import Basket from './components/Basket'
 import Tickets from './components/Tickets'
+import Landing from './components/Landing'
 import {decode, encode} from 'base-64'
 
 if (!global.btoa) {
@@ -22,6 +23,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Tab.Navigator
+        tabBarOptions={{activeTintColor: 'peachpuff'}}
         screenOptions={({ route }) => ({
           tabBarIcon: () => {
             let iconName;
@@ -34,12 +36,14 @@ export default function App() {
             else if (route.name === 'Tickets') {
               iconName = 'ios-wallet';
             }
-
-            // You can return any component that you like here!
-            return <Ionicons name={iconName} />;
+            else if (route.name === 'Landing') {
+              iconName = 'ios-information-circle-outline';
+            }
+            return <Ionicons size={20} name={iconName} color='peachpuff'/>;
           },
         })}
       >
+        <Tab.Screen name="Landing" component={Landing} />       
         <Tab.Screen name="Events" component={Home} />
         <Tab.Screen name="Basket" component={Basket} />
         <Tab.Screen name="Tickets" component={Tickets} />

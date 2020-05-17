@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Image, Text, FlatList, Alert } from 'react-native';
 import { Button } from 'react-native-elements';
 import QRCode from 'react-native-qrcode-svg';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import * as SQLite from 'expo-sqlite';
 import { Audio } from 'expo-av';
 import * as SMS from 'expo-sms';
 
 const tickets = SQLite.openDatabase('tickets.db');
+//const soundObject  = new Audio.Sound();
 
 export default function Tickets() {
 
@@ -19,7 +21,8 @@ export default function Tickets() {
         });
   
   const [mytickets, setMytickets] = useState([]);
-  const soundObject = new Audio.Sound();
+  const [soundObject] = useState(new Audio.Sound());
+  const [playing, setPlaying] = useState(false); 
   let key = Expo.Constants.manifest.extra.apikey;
   let gkey = Expo.Constants.manifest.extra.gkey;
   const [hotels, setHotels] = useState([]);
@@ -54,26 +57,27 @@ export default function Tickets() {
 
   const listen = async (eventname) => {
 
-        try {
-          if (eventname.includes("uisrock")) {
-          await soundObject.loadAsync(require('./sounds/ruisrock.mp3'));
-          } else {
-            await soundObject.loadAsync(require('./sounds/syksy.mp3'));           
-          }
-          await soundObject.playAsync();
-        } catch (error) {
-          Alert.alert('Ei voida toistaa');
-        }
-    }
-
-
-    const stop = async () => {
-      try {    
+    try {
+      if (playing) {
         await soundObject.stopAsync();
-      } catch (error) {
-        Alert.alert('Ei voida hiljentää');
+        setPlaying(false);
+      } else {
+        soundObject.unloadAsync()
+          if (eventname.includes("uisrock")) {
+            await soundObject.loadAsync(require('./sounds/ruisrock.mp3'));
+            } else {
+              await soundObject.loadAsync(require('./sounds/syksy.mp3'));           
+            }
+        await soundObject.playAsync();
+        setPlaying(true);
       }
+    } catch (error) {
+      console.log(error);
     }
+    }
+
+
+  
 
     const send = async (ticketcode) => {
       const isAvailable = await SMS.isAvailableAsync();
@@ -112,6 +116,7 @@ export default function Tickets() {
 
     }
 
+
   return (
     
   <View style={styles.container}> 
@@ -119,13 +124,21 @@ export default function Tickets() {
       <FlatList
           data={mytickets}
           keyExtractor={item => String(item.id)}
+          ItemSeparatorComponent={listSeparator}
           renderItem = {({item}) =>
           <View style={styles.ticketitem}>
-              <QRCode value={item.ticketcode} size={150}></QRCode>              
-              <Text style={{lineHeight: 30, fontSize:15}}>{item.eventname}: {item.venue} </Text>
-              <Button style={{width: 210}} type="outline"  title="Kuuntele" onPress={() => {listen(item.eventname)}} />  
-              <Button style={{width: 210}} type="outline"  title="Lippukoodi puhelimeen" onPress={() => {send(item.ticketcode)}} />
-              <Button style={{width: 210}} type="outline"  title="Etsi hotellia" onPress={() => {hotel(item.venue)}} />                            
+              <View style={styles.qr}>
+                <QRCode value={item.ticketcode} size={120}></QRCode>  
+                <Text style={{lineHeight: 25, fontSize:20}}>{item.eventname}</Text>
+                <Text style={{lineHeight: 20, fontSize:15}}>{item.venue} </Text>
+              </View>
+              <View style={styles.options}>
+                <Button icon={ <Icon name="play" size={15} style={{color: 'white'}} />} style={styles.button} 
+                        title=" Stop & Play"
+                        onPress={() => {listen(item.eventname)}} buttonStyle={{ backgroundColor: 'peachpuff' }} />  
+                <Button style={styles.button}  title="Lippukoodi SMS" onPress={() => {send(item.ticketcode)}} buttonStyle={{ backgroundColor: 'peachpuff' }} />
+                <Button style={styles.button}   title="Etsi hotelli" onPress={() => {hotel(item.venue)}} buttonStyle={{ backgroundColor: 'peachpuff' }} />                           
+              </View>
             </View>
         }/>
     </View>
@@ -137,15 +150,14 @@ export default function Tickets() {
             keyExtractor={item => String(item.id)}
             renderItem = {({item}) =>
             <View style={styles.ticketitem}>
-                <Text>{item.name}: {item.vicinity}, {item.rating} tähteä</Text>                    
+                <Text style={{lineHeight: 25}}>{item.name}: {item.vicinity}, {item.rating} tähteä</Text>                    
             </View>
           }/>
       }  
     </View>
 
     <View style={styles.buttons}>    
-      <Button type="outline"  title="Tyhjennä" onPress={deleteAll} />
-      <Button type="outline"  title="Hiljennä" onPress={stop} /> 
+      <Button title="Poista kaikki liput" onPress={deleteAll} style={styles.button}  buttonStyle={{ backgroundColor: 'peachpuff' }} />  
     </View>
 
    </View>
@@ -167,19 +179,28 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: 'center',
   },
+  button: {
+    width: 180,
+    marginVertical: 2
+  },
   ticketitem: {
+    flexDirection: "row",
+  },
+  qr: {
     padding: 10,
-    alignItems: 'center',
+    width: '50%'
+  },
+  options: {
+    padding: 10,
+    width: '50%'
   },
   hotelcontainer: {
     flex: 1,
     alignItems: 'center',
-    marginHorizontal: 35,
-    color: 'white',
-    paddingVertical: 10
+    marginHorizontal: 10,
+    marginVertical: 10
   },
   ticketcontainer:{
     flex: 3,
-    color: 'white'
   }
 })

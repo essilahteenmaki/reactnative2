@@ -76,7 +76,7 @@ export default function Events({ navigation }) {
               <Text style={{fontSize:24}}>{item.name} </Text>
                <Text>{item.venue} </Text>
                <Text>{String(item.startTime)} </Text>
-               <Button title="Lue lisää" onPress={() => navigation.navigate('Details', {item})} />
+               <Button title="Lue lisää" onPress={() => navigation.navigate('Details', {item})} buttonStyle={{ backgroundColor: 'peachpuff' }} />
             </View>
         }/>
       } 
@@ -94,6 +94,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   eventscontainer : {
-    marginVertical: 5
+    marginVertical: 5,
+    width: '100%'
   }
 })

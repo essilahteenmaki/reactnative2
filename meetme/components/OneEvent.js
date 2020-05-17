@@ -34,7 +34,7 @@ export default function OneEvent({ route, navigation })  {
 
   return (
     <View style={styles.container}>  
-      <View> 
+      <View style={styles.card}>  
         <Card
             key={item => String(item.eventid)}
             title={item.name}
@@ -64,7 +64,7 @@ export default function OneEvent({ route, navigation })  {
               itemStyle={{height: 50}}
               onValueChange={(itemValue, itemIndex) => setSelectedPcs(itemValue)}
             >
-              <Picker.Item label="Lippujen lkm:" value="0" />
+              <Picker.Item label="Lippujen lkm (scrollaa alas):" value="0" />
               <Picker.Item label="1" value="1" />
               <Picker.Item label="2" value="2" />
               <Picker.Item label="3" value="3" />
@@ -78,13 +78,13 @@ export default function OneEvent({ route, navigation })  {
               itemStyle={{height: 50}}
               onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
             >
-              <Picker.Item label="Valitse lipputyyppi" value="0" />
+              <Picker.Item label="Lipputyyppi (scrollaa alas):" value="0" />
               <Picker.Item label="Normaali" value="5" />
               <Picker.Item label="Lapsi" value="6" />
               <Picker.Item label="Opiskelija" value="7" />
             </Picker>
 
-            <Button title="Lisää koriin" onPress={addBasket} />
+            <Button title="Lisää koriin" onPress={addBasket} buttonStyle={{ backgroundColor: 'peachpuff' }} style={{marginTop: 30}} />
 
         </View>
   </View>
@@ -101,9 +101,10 @@ const styles = StyleSheet.create({
     paddingTop: 10
   },
   buy: {
+    marginTop: 20,
     marginHorizontal: '5%',
     flexDirection: "column",
     justifyContent: 'center',
     alignContent: 'center'
-  }
+  },
 });

@@ -160,9 +160,11 @@ const notify = (msg) => {
 
   return (
   <View style={styles.container}>
-       <Image style={{width: 400, height: 200}}
-          source={require('./pics/card.png')}
-        />
+    
+    <Image
+        style={{height: 250}}
+        source={require('./pics/basket.jpg')}
+      />
 
     {/*
     {errormessage.map((item) => (
@@ -180,13 +182,13 @@ const notify = (msg) => {
                 ? <Text style={{fontSize:20}}>{item.eventname}: {item.pcs} normaalia lippua</Text>
                 : <Text style={{fontSize:20}}>{item.eventname}: {item.pcs} alennettua lippua</Text>
               }
-              <Button onPress={() => deleteItem(item.id)} title="Poista"/>
+              <Button onPress={() => deleteItem(item.id)} title="Poista" buttonStyle={{ backgroundColor: 'peachpuff' }} />
             </View>
         }/>
 
     <View style={styles.buttons}>
-      <Button type="outline"  title="Tilaa liput" onPress={buy} />
-      <Button type="outline"  title="Tyhjennä kori" onPress={deleteAll} />
+      <Button title="Tilaa liput" onPress={buy} style={{paddingHorizontal: 5}} buttonStyle={{ backgroundColor: 'peachpuff' }} />
+      <Button title="Tyhjennä kori" onPress={deleteAll} buttonStyle={{ backgroundColor: 'peachpuff' }} />
     </View>
 
   </View>

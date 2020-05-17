@@ -14,4 +14,4 @@ web-report/
 .DS_Store
 
 #apikeys
-app.json
+/app.json
